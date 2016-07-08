@@ -23,17 +23,24 @@ namespace GildedRose.Console
             {
                 Items = new List<Item>
                 {
-                    new Item {Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20},
-                    new Item {Name = "Aged Brie", SellIn = 2, Quality = 0},
-                    new Item {Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7},
-                    new Item {Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80},
-                    new Item
-                    {
-                        Name = "Backstage passes to a TAFKAL80ETC concert",
+                    new Item {Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20, Type = ItemType.Normal},
+                    new Item {Name = "Aged Brie", SellIn = 2, Quality = 0, Type = ItemType.Ageing},
+                    new Item {Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7, Type = ItemType.Normal},
+                    new Item {Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80, Type = ItemType.Legendary},
+                    new Item {Name = "Merlot Red Wine", SellIn = 0, Quality = 20, Type = ItemType.Ageing},
+                    new Item {Name = "Stilton", SellIn=0, Quality=0, Type = ItemType.Ageing},
+                    new Item {Name = "Gruyere", SellIn=0, Quality=0, Type = ItemType.Ageing},
+                    new Item {Name = "Cuban Cigars", SellIn=0, Quality=10, Type = ItemType.NoDrop},
+                    new Item {Name = "Artichoke", SellIn=5, Quality=5, Type = ItemType.Normal},
+                    new Item {Name = "Yoghurt", SellIn=10, Quality=10, Type = ItemType.Normal},
+                    new Item {Name = "Gourmet Dinner Tickets", SellIn=10, Quality=1, Type = ItemType.Desirable},
+                    new Item {Name = "Wine Tasting Workshop", SellIn=42, Quality=1, Type = ItemType.Desirable},
+                    new Item {Name = "Backstage passes to a TAFKAL80ETC concert",
                         SellIn = 15,
-                        Quality = 20
+                        Quality = 20, 
+                        Type = ItemType.Desirable
                     },
-                    new Item {Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
+                    new Item {Name = "Conjured Mana Cake", SellIn = 3, Quality = 6, Type = ItemType.Conjured}
                 }
             };
 
@@ -59,25 +66,33 @@ namespace GildedRose.Console
         {
             foreach (var item in items)
             {
-                if (item.Name == "Aged Brie")
+                if (item.Type == ItemType.Ageing ) 
                 {
                     UpdateAgeingItem(item);
                 }
-                else if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
+                else if (item.Type == ItemType.Desirable)
                 {
                     UpdateDesirableEventItem(item);
                 }
-                else if (item.Name == "Sulfuras, Hand of Ragnaros")
+                else if (item.Type == ItemType.Legendary)
                 {
                     UpdateLegendaryItem(item);
                 }
-                else if (item.Name == "Conjured Mana Cake")
+                else if (item.Type == ItemType.Conjured)
                 {
                     UpdateConjuredItem(item);
                 }
-                else
+                else if (item.Type == ItemType.NoDrop)
+                {
+                    continue;
+                }
+                else if (item.Type==ItemType.Normal)
                 {
                     UpdatePerishableItem(item);
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("I don't know how to handle this item!");
                 }
             }
         }
